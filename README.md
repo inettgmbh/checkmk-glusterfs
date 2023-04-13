@@ -2,7 +2,7 @@
 
 ## Description
 
-Small Monitoring Plugin for GlusterFS, tested on GlusterFS 11.0 with newest CheckMK Version
+Small Monitoring Plugin for GlusterFS, tested on GlusterFS 11.0 and CheckMK 2.1.0p24
 
 Included Checks:
  - Peer Status
