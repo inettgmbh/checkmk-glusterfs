@@ -18,5 +18,5 @@ Added to CheckMK:
 - One Service for each Volume in CheckMK
 
 ## Installation
-The mkp archive can be downloaded directly from the [release](https://github.com/inettgmbh/checkmk-glusterfs/releases/latest) 
+The mkp archive can be downloaded directly from the [release](https://github.com/inettgmbh/checkmk-glusterfs/releases/latest) section
 and installed by following the [documentation of check_mk](https://docs.checkmk.com/latest/en/mkps.html).
