@@ -1,0 +1,37 @@
+#!/bin/sh
+echo '<<<glusterfs>>>'
+
+inpath() {
+    command -v "${1:?No command to test}" >/dev/null 2>&1
+}
+
+systemd_service() {
+  systemctl status "${1?No service to check for}" > /dev/null 2>&1
+  RC=$?
+  # shellcheck disable=SC2235
+  ([ "$RC" != "3" ] && [ "$RC" != "4" ])
+}
+
+_command() {
+  echo "# $*"
+  $*
+}
+
+# check for Ceph
+# shellcheck disable=SC2015
+inpath gluster && systemd_service glusterd && echo 0 ok || {
+  echo 1 "gluster not installed"
+  exit 0
+}
+
+_command gluster pool list | xargs -L 1
+_command gluster peer status | xargs -L 1
+VOL_LIST=$( gluster volume list | xargs -L 1)
+echo "# gluster volume list"
+# shellcheck disable=SC2162
+echo "$VOL_LIST" | while read name _tail; do
+  _command gluster volume info "$name"
+  _command gluster volume heal "$name" info
+  _command gluster volume heal "$name" info split-brain
+  _command gluster volume rebalance "$name" status
+done | xargs -L 1
